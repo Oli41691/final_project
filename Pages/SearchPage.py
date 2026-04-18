@@ -14,18 +14,20 @@ class SearchPage(BasePage):
         super().__init__(driver)
 
     def get_results(self) -> List[WebElement]:
-        return self.wait.until(EC.presence_of_all_elements_located(self.RESULT_ITEMS))
+        return self.wait.until(EC.visibility_of_all_elements_located(self.RESULT_ITEMS))
 
     def is_book_in_results(self, title: str) -> bool:
         results = self.get_results()
         for item in results:
+            classes_to_check = ['product-item__title', 'search-title__head', 'search-title__sub', 'app-page-container']
+        for class_name in classes_to_check:
             try:
-                item_title = item.find_element(By.CLASS_NAME, 'product-item__title').text
+                element = item.find_element(By.CLASS_NAME, class_name)
+                item_title = element.text
+                if title.lower() in item_title.lower():
+                    return True
             except NoSuchElementException:
                 continue
-
-            if title.lower() in item_title.lower():
-                return True
         return False
 
     def open_first_result(self) -> None:

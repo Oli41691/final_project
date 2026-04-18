@@ -20,7 +20,22 @@ class MainPage(BasePage):
         return self.wait.until(EC.presence_of_element_located(self.SEARCH_INPUT))
 
     def perform_search(self, query: str):
-        search_input = self.driver.find_element(*self.SEARCH_INPUT)
-        search_input.clear()
+        search_input = WebDriverWait(self.driver, 15).until(
+        EC.presence_of_element_located(self.SEARCH_INPUT))
         search_input.send_keys(query)
-        search_input.send_keys(Keys.RETURN)
+
+        search_button = WebDriverWait(self.driver, 20).until(
+        EC.visibility_of_element_located(self.SEARCH_BUTTON))
+        search_button.click()
+    
+    def handle_age_confirmation(self, timeout=3):
+        try:
+            modal = WebDriverWait(self.driver, timeout).until(
+                EC.presence_of_element_located((By.CLASS_NAME, 'ui-modal-content__content'))
+            )
+            button = WebDriverWait(self.driver, 1).until(
+                EC.element_to_be_clickable((By.CLASS_NAME, 'chg-app-button--primary'))
+            )
+            button.click()
+        except:
+            pass
