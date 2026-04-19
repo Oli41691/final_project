@@ -70,3 +70,7 @@ class BasePage:
         """
         element = self.find(locator)
         self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
+
+    def get_text(self, locator: Tuple[str, str]) -> str:
+        element = self.find(locator)
+        return element.text

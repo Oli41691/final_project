@@ -439,14 +439,14 @@ pyrightconfig.json
 *mies
 
 # Other names that would make sense
-#*tests
-#*testsdir
-#*testsfile
-#*testsfiles
-#*test
-#*testdir
-#*testfile
-#*testfiles
+*tests
+*testsdir
+*testsfile
+*testsfiles
+*test
+*testdir
+*testfile
+*testfiles
 *testing
 *testingdir
 *testingfile
@@ -507,3 +507,5 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,visualstudiocode,python,test
+
+*vscode

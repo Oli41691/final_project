@@ -4,6 +4,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
+import logging
+
 
 class MainPage(BasePage):
     URL: str = "https://www.chitai-gorod.ru/"
@@ -28,14 +31,16 @@ class MainPage(BasePage):
         EC.visibility_of_element_located(self.SEARCH_BUTTON))
         search_button.click()
     
-    def handle_age_confirmation(self, timeout=3):
+    def handle_age_confirmation(self, timeout=3) -> None:
         try:
             modal = WebDriverWait(self.driver, timeout).until(
-                EC.presence_of_element_located((By.CLASS_NAME, 'ui-modal-content__content'))
-            )
+            EC.presence_of_element_located((By.CLASS_NAME, 'ui-modal-content__content')))
             button = WebDriverWait(self.driver, 1).until(
-                EC.element_to_be_clickable((By.CLASS_NAME, 'chg-app-button--primary'))
-            )
+            EC.element_to_be_clickable((By.CLASS_NAME, 'chg-app-button--primary')))
             button.click()
-        except:
-            pass
+        except TimeoutException:
+            logging.info("Модальное окно подтверждения не появилось.")
+        except NoSuchElementException:
+            logging.info("Кнопка подтверждения не найдена.")
+        except Exception as e:
+            logging.error(f"Ошибка при обработке подтверждения возраста: {e}")

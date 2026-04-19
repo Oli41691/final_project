@@ -48,3 +48,8 @@ def login_with_token(driver):
     driver.refresh()
     WebDriverWait(driver, 10).until(
         EC.presence_of_element_located((By.ID, 'app-search')))
+
+@pytest.fixture(scope='function')
+def authenticated_driver(driver):
+    login_with_token(driver)
+    return driver

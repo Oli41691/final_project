@@ -9,10 +9,16 @@ from selenium.webdriver.support.ui import WebDriverWait
 from Pages.MainPage import MainPage
 from Pages.SearchPage import SearchPage
 
-@allure.title("Проверка поиска по точному названию книги")
-@allure.story("Поиск книги по точному названию")
+devices = [
+    {"name": "mobile", "width": 375, "height": 667},
+    {"name": "tablet", "width": 768, "height": 1024},
+    {"name": "desktop", "width": 1920, "height": 1080},
+]
+
+@allure.title("Проверка поиска по точному/не корректному названию книги")
+@allure.story("Поиск книги по точному/ не корректному названию")
 @pytest.mark.ui
-def test_ui_search_by_exact_title(driver: WebDriver) -> None:
+def test_search_by_exact_title(driver: WebDriver) -> None:
     main_page = MainPage(driver)
     search_results_page = SearchPage(driver)
 
@@ -59,70 +65,88 @@ def test_ui_search_by_exact_title(driver: WebDriver) -> None:
             except:
                 pass
 
-@allure.title("Добавление книги в корзину из карточки товара")
-@allure.story("Добавление товара")
+@pytest.mark.parametrize("device", devices)
+@allure.story("Адаптивность сайта на разных устройствах")
 @pytest.mark.ui
-def test_ui_add_book_to_cart(driver: WebDriver) -> None:
+def test_responsive_layout(driver, device):
+    with allure.step(f"Установка размера окна: {device['name']} ({device['width']}x{device['height']})"):
+        driver.set_window_size(device["width"], device["height"])
+
     main_page = MainPage(driver)
-    with allure.step("Открытие сайта и ожидание загрузки страницы"):
+
+    with allure.step("Переход на главную страницу и проверка загрузки"):
+        main_page.go()
+        main_page.is_loaded()
+
+    if device["width"] < 768:
+        with allure.step("Проверка наличия мобильного меню"):
+            burger_locator = (By.CLASS_NAME, 'home-page')
+            assert main_page.is_element_visible(burger_locator), \
+                f"Главное меню не отображается на {device['name']} ({device['width']}px)"
+    else:
+        with allure.step("Проверка наличия полноценного меню"):
+            main_menu_locator = (By.CLASS_NAME, 'home-page') 
+            assert main_page.is_element_visible(main_menu_locator), \
+                f"Меню не отображается на {device['name']} ({device['width']}px)"
+
+@allure.title("Добавление книги и оформление заказа")
+@allure.story("Добавление книги и оформление заказа")
+@pytest.mark.ui
+def test_add_book_and_checkout(driver: WebDriver, login_with_token):
+    wait = WebDriverWait(driver, 10)
+
+    with allure.step("Переход на главную страницу"):
+        main_page = MainPage(driver)
         main_page.go()
 
-    with allure.step("Выбор и клик по первой карточке книги на главной"):
-        card_container = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((
-                By.CSS_SELECTOR, ".product-carousel__slide, .product-recommendation-edit, .product-card__recommendation-edit"
-            ))
-        )
+    with allure.step("Ожидание появления карточки товара и клик по ней"):
+        card_container = wait.until(EC.presence_of_element_located(
+            (By.CSS_SELECTOR, ".product-carousel__slide, .product-recommendation-edit, .product-card__recommendation-edit")
+        ))
         card_container.click()
 
+    with allure.step("Обработка подтверждения возраста, если потребуется"):
         main_page.handle_age_confirmation()
 
-    with allure.step("Поиск названия книги и кнопки 'Добавить в корзину' внутри карточки"):
-        book_title_elem = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.CLASS_NAME, "product-detail-page__title"))
-        )
+    with allure.step("Получение названия книги"):
+        book_title_elem = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "product-detail-page__title")))
         book_title = book_title_elem.text
 
-        add_button = WebDriverWait(driver, 10).until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, ".product-offer__buttons"))
-        )
-
+    with allure.step("Добавление книги в корзину"):
+        add_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".product-offer__buttons")))
         assert add_button.is_displayed(), "Кнопка добавления в корзину не отображается"
         add_button.click()
 
-@allure.title("Оформление заказа с заполнением обязательных полей")
-@allure.story("Оформление заказа")
-@pytest.mark.ui
-def test_ui_checkout(driver: WebDriver) -> None:
-    wait = WebDriverWait(driver, 10)
-
-    with allure.step("Переход в корзину"):
+    with allure.step("Переход к странице корзины"):
         driver.get("https://www.chitai-gorod.ru/cart/")
-    
-    with allure.step("Нажатие кнопки 'Перейти к оформлению'"):
+
+    with allure.step("Переход к оформлению заказа (кнопка 'Оформить заказ')"):
         route_to_checkout_button = wait.until(EC.element_to_be_clickable((By.CLASS_NAME, "chg-app-button__content")))
         route_to_checkout_button.click()
 
-    with allure.step("Выбор магазина 'заберу отсюда'"):
+    with allure.step("Выбор пункта выдачи (нажатие 'Выбрать магазин')"):
         pick_shop_button = wait.until(EC.element_to_be_clickable((By.CLASS_NAME, "point-preview__button")))
         pick_shop_button.click()
-    
-    # Теперь можно заполнить форму
-    with allure.step("Заполнение формы обязательных полей"):
+
+    with allure.step("Заполнение формы данных покупателя"):
         driver.find_element(By.NAME, "name").send_keys("Иван Иванов")
         driver.find_element(By.NAME, "phone").send_keys("+71234567890")
         driver.find_element(By.NAME, "email").send_keys("test@example.com")
-    
-    with allure.step("Отправка формы и проверка подтверждения"):
+
+    with allure.step("Отправка формы заказа"):
         driver.find_element(By.CLASS_NAME, "checkout-summary__button").click()
-        confirmation = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, "checkout-summary__button")))
-        assert "Спасибо, ваш заказ принят!" in confirmation.text, "Заказ не оформлен. Получено сообщение: " + confirmation.text
+
+    with allure.step("Проверка отображения подтверждения заказа"):
+        confirmation = wait.until(
+            EC.visibility_of_element_located((By.CLASS_NAME, "checkout-summary__button"))
+        )
+        assert "Спасибо, ваш заказ принят!" in confirmation.text
 
 
 @allure.title("Проверка элементов интерфейса на главной странице")
 @allure.story("UI и отзывчивость элементов")
 @pytest.mark.ui
-def test_ui_elements_responsiveness(driver):
+def test_elements_responsiveness(driver):
     url = "https://www.chitai-gorod.ru/"
 
     with allure.step("Открытие главной страницы сайта"):

@@ -1,7 +1,7 @@
 import allure
 import pytest
 from Pages.api_client import ApiClient
-from config import BASE_URL
+from config import BASE_URL, URL_2
 
 client = ApiClient(base_url=BASE_URL)
 
@@ -25,27 +25,38 @@ def test_get_cart_info():
         response = client.get_cart_info()
     with allure.step("Проверяем что ответ содержит ожидаемую структуру"):
         assert isinstance(response, dict), f"Expected dict, got {type(response)}"
-        assert "items" in response, "Response should contain 'items' key"
+        assert "data" in response, "Response should contain 'data' key"
+        data = response["data"]
+        assert "items" in data, "Data should contain 'items' key"
+        assert isinstance(data["items"], list), "'items' should be a list"
 
 @allure.story("Поиск по названию")
 @allure.title("Поиск товара по фразе с правильными параметрами")
 @pytest.mark.api
 def test_search_product():
+    client = ApiClient(URL_2)
     city_id = 213
     phrase = "в плену синих роз"
     ab_test_group = "1"
-    
+    page = 1
+    per_page = 60
+
     with allure.step("Отправляем GET запрос к поиску"):
         response = client.search_product(
-            city_id=city_id, 
-            phrase=phrase, 
-            ab_test_group=ab_test_group
+            city_id=city_id,
+            phrase=phrase,
+            ab_test_group=ab_test_group,
+            page=page,
+            per_page=per_page
         )
-    
+
     with allure.step("Проверяем структуру ответа поиска"):
         assert isinstance(response, dict), f"Expected dict, got {type(response)}"
-        assert "products" in response or "items" in response, \
-            "Search response should products or items key"
+        assert "data" in response, "Response should contain 'data' key"
+        if "data" in response and response["data"]:
+            assert isinstance(response["data"], list), "Data key should be a list"
+            for item in response["data"]:
+                assert isinstance(item, dict), "Each item should be a dict"
 
 @allure.story("Добавление товара в корзину")
 @allure.title("Добавление товара по ID")

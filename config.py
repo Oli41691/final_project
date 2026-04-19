@@ -1,6 +1,32 @@
 # Базовые URLs для API
 BASE_URL = 'https://web-agr.chitai-gorod.ru/web/api/v1/'
+URL_2 = 'https://web-agr.chitai-gorod.ru/web/api/v2/'
 
 
-ACCESS_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwczovL3VzZXItcmlnaHQiLCJzdWIiOjIzNTcyNzU4LCJpYXQiOjE3NzU4MzQ1ODUsImV4cCI6MTc3NTgzODE4NSwidHlwZSI6MjAsImp0aSI6IjAxOWQ3N2ZkLTVhZGItN2VhNi1hYWJmLTgzZDI2ZDgyMDgyYiIsInJvbGVzIjoxMH0.acLh957or8AWZB5ywC61-rppR-keCABtDYQvgc7a0MjfjnEhRT3H7V2maiztyPplopKB207kFve-_DlW9o7w_ZkoZJ7eUB1e0LmBfNNAknIsy5URqG9EqiXrpKrTEXp6rNYoruV7wLgmpQxMrtDSHu3mT47DWYTw2D8ztt0U2NFmYR_e49_SJm9EjhOYL_lmxPbWln5xsB_71hUKS8L9_1dz4vOOtK1JPcl5SfhkeuIKWPQsDVRzR5Ix1pjeyMFIKsYj7J_srHCGiwgmIo_wpN8YvBlUxAnEN2QR21OnvxjCRL25m_HRqu3NeW32iHNMFHdZZURmKwqX5AHLmYIPCA'
+ACCESS_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwczovL3VzZXItcmlnaHQiLCJzdWIiOjIzNTcyNzU4LCJpYXQiOjE3NzY2MjUwMTksImV4cCI6MTc3NjYyODYxOSwidHlwZSI6MjAsImp0aSI6IjAxOWRhNzFhLTZhYTAtNzJiOS1hMGExLTk2ZDdhMzU3ODY3NiIsInJvbGVzIjoxMH0.KvjjsymKJRrPW9BGmN1tn92AYzgzGaa9SW13hykaKQdZkZowrg_cfmBnUMZED3xDXrS5VQmKnqa19f0Jjuha3ONFC5p-CuI0V6Esov2C3Rk_XRONo7Wr06xOp3aItKuZeSHLaVuCPEU5Fi2sPP0XZV1We-EfK-datj7wl-YsuHZtq9Q1lBjXCA-RLX1IJWIgyWdl7KBIFDjg0wtcF_QkOI4v_7eFO16h73cBc1tdjOobELxmzfOiaR0aRYixnixWGH_A_WdK-aFWShs7jJ4Tuq5N62znhFBsRO7PT1LI4TG3G3ovzyJEMMaWmR4GfsSTYRb-EDmdLTwiIsgMmlq7uw'
 REFRESH_TOKEN = 'EQVUbqPRIhB5rmB4vpeAeKYzov4kpwbnqh2qEDkO5fA2d1NS6y5R50WA8eLtKwFWu0cuSpBDJubBpDor'
+
+COOKIES = {
+    "__ddg1_": "sG9860wIYXMZcbIV9taf",
+    "_ym_uid": "1775834645384890251",
+    "_ym_d": "1775834645",
+    "chg_visitor_id": "ad7af2d5-0c20-4461-afbb-33666f676de0",
+    "__P__wuid": "138f76b851e6cb106cf824bcda3f341f",
+    "stDeIdU": "138f76b851e6cb106cf824bcda3f341f",
+    "tmr_lvid": "7c54bf1dfc2bbc5b77a88e398073945c",
+    "tmr_lvidTS": "1775834645870",
+    "__dpx_uid": "2-urfyfv31-mnt23idm",
+    "gdeslon.ru.__arc_domain": "gdeslon.ru",
+    "gdeslon.ru.user_id": "6ce261a2-7310-453a-ac97-54797b6162f8",
+    "adrcid": "AzpxLUwacr1MkoQpyG_410g",
+    "__sgml_uid": "1-ronokkdp-mnt23iiq",
+    "popmechanic_sbjs_migrations": "popmechanic_1418474375998%3D1%7C%7C%7C1471519752600%3D1%7C%7C%7C1471519752605%3D1",
+    "__ddg2_": "YejzusdlTxyS8q4o",
+    "__ddg9_": "188.242.0.88",
+    "utm_custom_source": "default",
+    "_ym_isad": "2",
+    "vIdUid": "dc17d8ed-6100-401d-b96f-5e47bd0c0dcb",
+    "stSeStTi": "1776603061325",
+    "adrdel": "1776603061898",
+    "acs_3": "%7B%22hash%22%3A%221aa3f9523ee6c2690cb34fc702d4143056487c0d%22%2C%22nst%22%3A1776689461916%2C%22sl%22%3A%7B%22224%3A1776603061916"
+}

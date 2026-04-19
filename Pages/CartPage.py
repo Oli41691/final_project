@@ -3,7 +3,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from Pages.BasePage import BasePage
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.remote.webelement import WebElement
-from typing import List
+from typing import List, Tuple
 
 class CartPage(BasePage):
     CART_ITEMS: Tuple[str, str] = (By.CLASS_NAME, 'chg-app-button')
@@ -12,7 +12,9 @@ class CartPage(BasePage):
         super().__init__(driver)
 
     def open(self) -> None:
-        self.click(self.CART_ITEMS)
+        elements = self.driver.find_elements(*self.CART_ITEMS)
+    if elements:
+        elements[0].click()
 
     def get_items_count(self) -> int:
         items: List[WebElement] = self.wait.until(EC.presence_of_all_elements_located(self.CART_ITEMS))

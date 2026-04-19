@@ -8,7 +8,7 @@ from selenium.webdriver.remote.webelement import WebElement
 from typing import List
 
 class SearchPage(BasePage):
-    RESULT_ITEMS: tuple = (By.CLASS_NAME, 'chg-app-button__content')
+    RESULT_ITEMS: Tuple[str, str] = (By.CSS_SELECTOR, '[type="submit"]')
 
     def __init__(self, driver: WebDriver) -> None:
         super().__init__(driver)
