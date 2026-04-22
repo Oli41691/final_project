@@ -3,8 +3,8 @@ BASE_URL = 'https://web-agr.chitai-gorod.ru/web/api/v1/'
 URL_2 = 'https://web-agr.chitai-gorod.ru/web/api/v2/'
 
 
-ACCESS_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwczovL3VzZXItcmlnaHQiLCJzdWIiOjIzNTcyNzU4LCJpYXQiOjE3NzY4ODM5MDUsImV4cCI6MTc3Njg4NzUwNSwidHlwZSI6MjAsImp0aSI6IjAxOWRiNjg4LWIyNmMtNzc1MS1hYzEzLTc4MmEwNzliODNkNiIsInJvbGVzIjoxMH0.UmRDREaHiYYaRMgvXU7d5GTNAD32smu3sq09pWbD7Jrz56ziZ_n-jmtjbqDIvHAiv6vMLg_kdYM6YyTnjpAEOB4fUwnEOvtfhiQWO4i__hGwynanE2LiFnn7To6cA-Dodtgl-4Ccq6A7Pi4ubOEosJphq9PXrz5sAKpp_I6nAq0_FNnMPapGScHqG9aWMYP0uenzGX9ymGa3dmOaHK8mlubak3q44s4jNvoPBK4AWO4fkpNKGNOaLBte2z6htUz2JjekVkA76NcL8Un_C-OLq4IwdSka_Yy4453nU3OpAF7x6nxiEnP6y63L1DuiAuLGFFKsn6NBlAzsznl0MIAwfQ'
-REFRESH_TOKEN = 'VhJ8lJs4eBpu5rnJiK16L36MlELAuCEfXy6vswsKQfjIsqC4D2FcieYvDzZxQsfaSAJtQerIDNcYdCMQ'
+ACCESS_TOKEN = 'подставьте Ваш TOKEN'
+REFRESH_TOKEN = 'подставьте Ваш Refresh_Token'
 
 COOKIES = {
     "__ddg1_": "sG9860wIYXMZcbIV9taf",
