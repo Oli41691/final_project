@@ -177,11 +177,9 @@ def test_search_nonexistent_book(driver):
 
     with allure.step("Ожидание появления сообщения о отсутствии книги"):
         try:
-            # Ждём появления элемента с классом catalog-stub__title
             no_results_element = WebDriverWait(driver, 10).until(
                 EC.visibility_of_element_located((By.CLASS_NAME, "catalog-stub__title"))
             )
-            # Проверяем текст
             assert "Похоже, у нас такого нет" in no_results_element.text
         except TimeoutException:
             pytest.fail("Сообщение о отсутствии книги не появилось")
